@@ -3,7 +3,7 @@ CFLAGS = -std=c99
 
 .PHONY: all clean
 
-all: multitasking baseline
+all: multitasking baseline multithreading
 
 multitasking: multitasking.c
 	$(CC) $(CFLAGS) -o multitasking multitasking.c
@@ -11,10 +11,11 @@ multitasking: multitasking.c
 baseline: baseline.c
 	$(CC) $(CFLAGS) -o baseline baseline.c
 
-
+multithreading: multithreading.c
+	$(CC) $(CFLAGS) -o multithreading multithreading.c
 
 clean:
-	rm -f *.txt multitasking baseline
+	rm -f *.txt multitasking baseline multithreading
 
-clean_times:
+clean_txt:
 	rm -f *.txt
