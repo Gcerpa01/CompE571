@@ -1,4 +1,3 @@
-#!/bin/bash
 
 count=50
 commands=(
@@ -17,7 +16,7 @@ output_files=(
 
 # create files
 for file in "${output_files[@]}"; do
-  >> "$file"
+  > "$file"
 done
 
 

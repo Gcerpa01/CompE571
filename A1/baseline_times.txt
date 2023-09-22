@@ -1,0 +1,100 @@
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.134771000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093801000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093831000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093831000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.094194000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093771000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093843000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.094183000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093778000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093775000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093733000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093725000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093899000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093864000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.094017000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093806000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093835000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093716000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093835000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093846000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093724000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093790000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093831000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093733000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093999000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093846000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093762000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093846000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093827000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093809000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093813000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093850000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093733000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093747000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093887000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093857000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093814000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093860000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093728000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093886000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093855000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093727000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.094278000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093865000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093712000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093827000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093809000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093822000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093826000000000
+Total sum from 0 to 100000000 is: 4999999950000000
+Total CPU time taken in seconds: 0.093892000000000

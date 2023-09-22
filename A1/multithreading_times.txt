@@ -1,0 +1,100 @@
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.133452000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097009000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097039000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097014000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097062000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097082000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097047000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097039000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097047000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097000000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097102000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097056000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097041000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.096990000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097058000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097017000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097042000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097038000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097045000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097021000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097059000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097086000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097032000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.096995000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097055000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097029000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097085000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097048000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097041000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097009000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097022000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097028000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097060000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097053000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097059000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.096992000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097023000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097022000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097048000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097021000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097028000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097022000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097032000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097013000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097067000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097213000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097119000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097027000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097040000000000
+Sum of numbers from 0 to 100000000 is 4999999950000000
+Total CPU time taken in seconds: 0.097003000000000

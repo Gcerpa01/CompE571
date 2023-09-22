@@ -6,13 +6,13 @@ CFLAGS = -std=c99
 all: multitasking baseline multithreading
 
 multitasking: multitasking.c
-	$(CC) $(CFLAGS) -o multitasking multitasking.c
+	$(CC) $(CFLAGS) -w -o multitasking multitasking.c
 
 baseline: baseline.c
-	$(CC) $(CFLAGS) -o baseline baseline.c
+	$(CC) $(CFLAGS) -w -o baseline baseline.c
 
 multithreading: multithreading.c
-	$(CC) $(CFLAGS) -o multithreading multithreading.c
+	$(CC) $(CFLAGS) -w -o multithreading multithreading.c
 
 clean:
 	rm -f *.txt multitasking baseline multithreading

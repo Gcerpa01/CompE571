@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#define N 1000000000
-#define NUM_THREADS 4
+#define N 100000000
+#define NUM_THREADS 2
 
 // struct
 struct ThreadData {
