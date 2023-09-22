@@ -14,4 +14,7 @@ baseline: baseline.c
 
 
 clean:
-	rm -f multitasking baseline
+	rm -f *.txt multitasking baseline
+
+clean_times:
+	rm -f *.txt
