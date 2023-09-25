@@ -3,6 +3,7 @@ commands=(
     "./baseline"
     "./multithreading"
     "./multitasking"
+    "./popen"
 )
 
 pattern="Total CPU time taken in seconds:"
@@ -11,6 +12,7 @@ output_files=(
     "baseline_times.txt"
     "multithreading_times.txt"
     "multitasking_times.txt"
+    "popen_times.txt"
 )
 
 # create files
