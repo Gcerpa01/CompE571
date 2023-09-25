@@ -1,4 +1,4 @@
-count=50
+count=10
 commands=(
     "./baseline"
     "./multithreading"
@@ -51,6 +51,7 @@ for ((i = 0; i < ${#commands[@]}; i++)); do
     variance=$(awk "BEGIN {print $sum / $count}")
     std_dev=$(awk "BEGIN {print sqrt($variance)}")
     echo "Standard Deviation for $command: $std_dev seconds"
+    echo
 done
 
 echo "Finished running all commands for $count times each"
