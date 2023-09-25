@@ -21,7 +21,7 @@ popen_adder:
 	$(CC) $(CFLAGS) -w -o popen_adder popen_adder.c
 
 clean:
-	rm -f *.txt multitasking baseline multithreading popen popen_adder
+	rm -f *times.txt multitasking baseline multithreading popen popen_adder
 
 clean_txt:
-	rm -f *.txt
+	rm -f *times.txt
