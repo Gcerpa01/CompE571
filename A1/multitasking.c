@@ -1,6 +1,6 @@
 
 #define N 100000000
-#define NUM_TASKS 2 
+#define NUM_TASKS 2
 
 #include <stdio.h>
 #include <sys/wait.h>

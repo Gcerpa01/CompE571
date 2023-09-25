@@ -8,8 +8,8 @@
 // struct
 struct ThreadData {
     int threadID;
-    int start;
-    int end;
+    long long start;
+    long long end;
     long long sum;
 };
 
@@ -17,7 +17,7 @@ struct ThreadData {
 void* calculateSum(void* arg) {
     struct ThreadData* data = (struct ThreadData*)arg;
     long long sum = 0;
-    for (int i = data->start; i < data->end; i++) {
+    for (long long i = data->start; i < data->end; i++) {
         sum += i;
     }
     data->sum = sum;
@@ -37,7 +37,7 @@ int main() {
 
     // We divide the work among the threads now
     struct ThreadData threadData[NUM_THREADS];
-    int chunkSize = N / NUM_THREADS;
+    long long chunkSize = N / NUM_THREADS;
     for (int i = 0; i < NUM_THREADS; i++) {
         threadData[i].threadID = i;
         threadData[i].start = i * chunkSize;
