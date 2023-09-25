@@ -29,9 +29,9 @@ void* calculateSum(void* arg) {
 }
 
 int main() {
-    clock_t start,end;
-    clock_t cpu_time_used;
-    start = clock();
+    struct timespec start,end;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
     // Create the thread array
     pthread_t threads[NUM_THREADS];
 
@@ -62,9 +62,9 @@ int main() {
         finalSum += threadData[i].sum;
     }
 
-    end = clock();
-    cpu_time_used = end - start;
-    double cpu_seconds = (double)cpu_time_used/CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &end);
+
+    double cpu_seconds = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
     // Print the final result
     printf("Sum of numbers from 0 to %lld is %lld\n", N, finalSum);

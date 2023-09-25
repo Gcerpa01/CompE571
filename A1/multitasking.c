@@ -35,9 +35,9 @@ void relaySum(struct Task *current_task){
 
 
 int main(){
-    clock_t start,end;
-    clock_t cpu_time_used;
-    start = clock();
+    struct timespec start,end;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
     long long sum = 0;
     struct Task work_tasks[NUM_TASKS];
     pid_t c_pid[NUM_TASKS];
@@ -76,9 +76,9 @@ int main(){
         waitpid(c_pid[i],NULL,0);
     }
     
-    end = clock();
-    cpu_time_used = end - start;
-    double cpu_seconds = (double)cpu_time_used/CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &end);
+
+    double cpu_seconds = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
     printf("Total sum from 0 to %lld is: %lld\n",N,sum);
     printf("Total CPU time taken in seconds: %.15f\n",cpu_seconds);
