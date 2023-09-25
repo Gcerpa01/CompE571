@@ -1,5 +1,5 @@
 #define N 100000000
-#define NUM_TASKS 2 
+#define NUM_TASKS 2
 
 #include <stdio.h>
 #include <sys/wait.h>
@@ -18,8 +18,9 @@ int main(){
     for(int i = 0; i < NUM_TASKS; i++){
         
         long long current_sum = 0;
-        long long start = i * (N / NUM_TASKS);
-        long long end = (i + 1) * (N/NUM_TASKS);
+        long long start = (N/NUM_TASKS)*i;
+
+        long long end = start + N/NUM_TASKS;
 
         char command[100];
 

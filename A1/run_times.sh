@@ -1,4 +1,4 @@
-count=10
+count=50
 commands=(
     "./baseline"
     "./multithreading"
