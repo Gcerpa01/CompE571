@@ -1,9 +1,12 @@
+#define _POSIX_C_SOURCE 200809L // Required for clock_gettime
+#define N 100000000
+#define NUM_THREADS 2
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-
-#define N 100000000
-#define NUM_THREADS 2
+#include <sys/wait.h>
+#include <time.h>
 
 // struct
 struct ThreadData {

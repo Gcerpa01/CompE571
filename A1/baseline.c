@@ -1,4 +1,4 @@
-
+#define _POSIX_C_SOURCE 200809L // Required for clock_gettime
 #define N  100000000
 #define NUM_THREAD 2
 #define NUM_TASKS 2
