@@ -67,7 +67,7 @@ int main() {
     double cpu_seconds = (double)cpu_time_used/CLOCKS_PER_SEC;
 
     // Print the final result
-    printf("Sum of numbers from 0 to %d is %lld\n", N, finalSum);
+    printf("Sum of numbers from 0 to %lld is %lld\n", N, finalSum);
     printf("Total CPU time taken in seconds: %.15f\n",cpu_seconds);
 
     return 0;
