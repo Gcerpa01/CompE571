@@ -12,11 +12,12 @@ int main(){
     struct timespec start,end;
     clock_gettime(CLOCK_MONOTONIC, &start);
 
-    FILE *fp;
+    FILE *fp[NUM_TASKS];
     long long sum = 0;
+    long long current_sum = 0;
+
     for(int i = 0; i < NUM_TASKS; i++){
         
-        long long current_sum = 0;
         long long start = (N/NUM_TASKS)*i;
 
         long long end = start + N/NUM_TASKS;
@@ -25,21 +26,23 @@ int main(){
 
         snprintf(command,sizeof(command), "./popen_adder %lld %lld",start,end);
 
-        fp = popen(command,"r");
+        fp[i] = popen(command,"r");
         if (fp == NULL){
             perror("popen");
             return 1;
         }
 
+    }
 
-        if(fscanf(fp,"%lld",&current_sum) != 1){
+    for(int i = 0; i < NUM_TASKS; i++){
+        if(fscanf(fp[i],"%lld",&current_sum) != 1){
             perror("fscanf");
             return 1;
         }
 
         sum += current_sum;
 
-        pclose(fp);
+        pclose(fp[i]);
         
         // printf("Task %d finished sums from %lld to %lld and got: %lld\n",i,start,end,current_sum);
 
