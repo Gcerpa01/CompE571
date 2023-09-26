@@ -16,6 +16,7 @@ output_files=(
 )
 
 # Function to print a text-based progress bar
+# This was added for visualization - Sourced from CHATGPT AI #
 print_progress() {
     local progress=$(( $1 * 50 / $count ))
     local bar=$(printf "%0.s=" $(seq 1 $progress))
