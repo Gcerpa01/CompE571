@@ -15,6 +15,15 @@ output_files=(
     "popen_times.txt"
 )
 
+# Function to print a text-based progress bar
+print_progress() {
+    local progress=$(( $1 * 50 / $count ))
+    local bar=$(printf "%0.s=" $(seq 1 $progress))
+    local space=$(printf "%0.s " $(seq $((50 - $progress))))
+    printf "[$bar$space] %d%%\r" "$((progress * 2))"
+}
+
+
 # create files
 for file in "${output_files[@]}"; do
   > "$file"
@@ -36,6 +45,8 @@ for ((i = 0; i < ${#commands[@]}; i++)); do
         total_time=$(awk "BEGIN {print $total_time + $cpu_time}")
         times+=("$cpu_time") # append to times
         wait
+
+        print_progress $j
     done
 
     average_time=$(awk "BEGIN {print $total_time / $count}")
