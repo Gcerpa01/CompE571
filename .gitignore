@@ -52,3 +52,7 @@ Mkfile.old
 dkms.conf
 .DS_Store
 .vscode
+A1/baseline_times.txt
+A1/multitasking_times.txt
+A1/popen_times.txt
+A1/multithreading_times.txt
