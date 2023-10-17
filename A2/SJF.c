@@ -105,13 +105,13 @@ int main(int argc, char const *argv[])
     int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
     pid_t processes[] = {pid1, pid2, pid3, pid4};
     int response_times[] = {0, 0, 0, 0};
-    int num_processes = 4;
+    int NUM_PROCESSES = 4;
 
-    struct timeval start_times[num_processes], end_time;
+    struct timespec start_times[NUM_PROCESSES], end_time;
 
     // Sort processes based on execution times (SJF)
-    for (int i = 0; i < num_processes - 1; i++) {
-        for (int j = 0; j < num_processes - i - 1; j++) {
+    for (int i = 0; i < NUM_PROCESSES - 1; i++) {
+        for (int j = 0; j < NUM_PROCESSES - i - 1; j++) {
             if (execution_times[j] > execution_times[j + 1]) {
                 // Swap execution times
                 int temp = execution_times[j];
@@ -126,21 +126,21 @@ int main(int argc, char const *argv[])
     }
 
    // Start and resume processes in SJF order and calculate response time
-    for (int i = 0; i < num_processes; i++) {
-        gettimeofday(&start_times[i], NULL); // Record the start time
+    for (int i = 0; i < NUM_PROCESSES; i++) {
+        clock_gettime(CLOCK_MONOTONIC, &start_times[i]);
         kill(processes[i], SIGCONT);
         wait(NULL); // Wait for the child process to finish
-        gettimeofday(&end_time, NULL);
-        response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_usec - start_times[i].tv_usec);
-        printf("Process ID: %d, Execution Workload: %d, Response Time: %ld microseconds\n", processes[i], execution_times[i], response_times[i]);
+        clock_gettime(CLOCK_MONOTONIC, &end_time);
+        response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_nsec - start_times[i].tv_nsec) / 1000;
+		printf("Process ID: %d, Execution Workload: %d, Response Time: %ld microseconds\n", processes[i], execution_times[i], response_times[i]);
     }
 
     // Now take the response times and average them
     int total_response_time = 0;
-    for (int i = 0; i < num_processes; i++) {
+    for (int i = 0; i < NUM_PROCESSES; i++) {
         total_response_time += response_times[i];
     }
-    int average_response_time = total_response_time / num_processes;
+    int average_response_time = total_response_time / NUM_PROCESSES;
     printf("Average Response Time: %d microseconds\n", average_response_time);
 	
 	/************************************************************************************************
