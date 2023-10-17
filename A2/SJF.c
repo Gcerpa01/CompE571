@@ -107,7 +107,7 @@ int main(int argc, char const *argv[])
     int response_times[] = {0, 0, 0, 0};
     int num_processes = 4;
 
-    struct timeval start_times[num_processes];
+    struct timeval start_times[num_processes], end_time;
 
     // Sort processes based on execution times (SJF)
     for (int i = 0; i < num_processes - 1; i++) {
@@ -130,7 +130,6 @@ int main(int argc, char const *argv[])
         gettimeofday(&start_times[i], NULL); // Record the start time
         kill(processes[i], SIGCONT);
         wait(NULL); // Wait for the child process to finish
-        struct timeval end_time;
         gettimeofday(&end_time, NULL);
         response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_usec - start_times[i].tv_usec);
         printf("Process ID: %d, Execution Workload: %d, Response Time: %ld microseconds\n", processes[i], execution_times[i], response_times[i]);
