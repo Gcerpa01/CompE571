@@ -102,18 +102,12 @@ int main(int argc, char const *argv[])
 		- Scheduling code starts here
 	************************************************************************************************/
 
-    // Calculate execution times
     int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
     pid_t processes[] = {pid1, pid2, pid3, pid4};
+    int response_times[] = {0, 0, 0, 0};
     int num_processes = 4;
 
     struct timeval start_times[num_processes];
-
-    // Print initial state // - FOR DEBUGGING
-    // printf("Initial state:\n");
-    // for (int i = 0; i < num_processes; i++) {
-    //     printf("Execution Time: %d, Process ID: %d\n", execution_times[i], processes[i]);
-    // }
 
     // Sort processes based on execution times (SJF)
     for (int i = 0; i < num_processes - 1; i++) {
@@ -127,12 +121,6 @@ int main(int argc, char const *argv[])
                 pid_t temp_pid = processes[j];
                 processes[j] = processes[j + 1];
                 processes[j + 1] = temp_pid;
-
-                // // Print state after swap // - FOR DEBUGGING
-                // printf("\nAfter Swap:\n");
-                // for (int k = 0; k < num_processes; k++) {
-                //     printf("Execution Time: %d, Process ID: %d\n", execution_times[k], processes[k]);
-                // }
             }
         }
     }
@@ -144,9 +132,17 @@ int main(int argc, char const *argv[])
         wait(NULL); // Wait for the child process to finish
         struct timeval end_time;
         gettimeofday(&end_time, NULL);
-        long response_time = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_usec - start_times[i].tv_usec);
-        printf("Process ID: %d, Response Time: %ld microseconds\n", processes[i], response_time);
+        response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_usec - start_times[i].tv_usec);
+        printf("Process ID: %d, Execution Workload: %d, Response Time: %ld microseconds\n", processes[i], execution_times[i], response_times[i]);
     }
+
+    // Now take the response times and average them
+    int total_response_time = 0;
+    for (int i = 0; i < num_processes; i++) {
+        total_response_time += response_times[i];
+    }
+    int average_response_time = total_response_time / num_processes;
+    printf("Average Response Time: %d microseconds\n", average_response_time);
 	
 	/************************************************************************************************
 		- Scheduling code ends here
