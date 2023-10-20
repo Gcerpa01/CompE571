@@ -102,10 +102,15 @@ int main(int argc, char const *argv[])
 		- Scheduling code starts here
 	************************************************************************************************/
 
-    running1 = 1;
-    running2 = 1;
-    running3 = 1;
-    running4 = 1;
+    pid_t processes[] = {pid1, pid2, pid3, pid4};
+	int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
+	int NUM_PROCESSES = 4;
+	int response_times[] = {0, 0, 0, 0};
+
+
+	struct timespec 
+		start_times[NUM_PROCESSES],
+		end_time;
 
     // from round robin sample.c program
     while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0)    //while loop for each process running
@@ -125,9 +130,18 @@ int main(int argc, char const *argv[])
         }
     }
 
+    for (int i = 0; i < NUM_PROCESSES; i++) {
+        clock_gettime(CLOCK_MONOTONIC, &start_times[i]);
+        kill(processes[i], SIGCONT);
+        wait(NULL); // Wait for the child process to finish
+        clock_gettime(CLOCK_MONOTONIC, &end_time);
+        response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_nsec - start_times[i].tv_nsec) / 1000;
+		printf("Process ID: %d, Execution Workload: %d, Response Time: %d microseconds\n", processes[i], execution_times[i], response_times[i]);
+    }
 	/************************************************************************************************
 		- Scheduling code ends here
 	************************************************************************************************/
+
 
     return 0;
 
