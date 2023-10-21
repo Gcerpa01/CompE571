@@ -13,9 +13,9 @@
 		the time quantum values for Round Robin scheduling for each task.
 *************************************************************************************************/
 
-#define WORKLOAD1 100000
-#define WORKLOAD2 500000
-#define WORKLOAD3 25000
+#define WORKLOAD1 10000
+#define WORKLOAD2 10000
+#define WORKLOAD3 10000
 #define WORKLOAD4 10000
 
 #define QUANTUM1 1000
@@ -103,33 +103,42 @@ int main(int argc, char const *argv[])
 	************************************************************************************************/
 
     pid_t processes[] = {pid1, pid2, pid3, pid4};
+	int runners[] = {running1, running2, running3, running4};
     int NUM_PROCESSES = 4;
-    long int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
-	long int response_times[] = {0, 0, 0, 0};
+    unsigned long long int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
+	unsigned long long int response_times[] = {0, 0, 0, 0};
+	unsigned long long int total_response_time = 0;
+
 
 	struct timespec 
-		start_times[NUM_PROCESSES],
-		end_time;
+		start_times,
+		end_times[NUM_PROCESSES];
 
+	// iniitalize runners
 	running1 = 1;
 	running2 = 1;
 	running3 = 1;
 	running4 = 1;
 
-    for (int i = 0; i < NUM_PROCESSES; i++) {
-        clock_gettime(CLOCK_MONOTONIC, &start_times[i]);
+	// start initial timer for all processes
+	clock_gettime(CLOCK_MONOTONIC, &start_times);
 
+    for (int i = 0; i < NUM_PROCESSES; i++) {
+
+		// initiate RR with QUANTUM constraints
         while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0) {
 
             if (running1 > 0){
                 kill(pid1, SIGCONT);
                 usleep(QUANTUM1);
                 kill(pid1, SIGSTOP);
+
             }
             if (running2 > 0){
                 kill(pid2, SIGCONT);
                 usleep(QUANTUM2);
                 kill(pid2, SIGSTOP);
+
             }
             if (running3 > 0){
                 kill(pid3, SIGCONT);
@@ -141,36 +150,31 @@ int main(int argc, char const *argv[])
                 usleep(QUANTUM4);
                 kill(pid4, SIGSTOP);
             }
-            waitpid(pid1, &running1, WNOHANG);
-            if (QUANTUM1 < WORKLOAD1) {
-                running1 = 0;
-            }
-            waitpid(pid2, &running2, WNOHANG);
-            if (QUANTUM2 < WORKLOAD2) {
-                running2 = 0;
-            }
-            waitpid(pid3, &running3, WNOHANG);
-            if (QUANTUM3 < WORKLOAD3) {
-                running3 = 0;
-            }
-            waitpid(pid4, &running4, WNOHANG);
-            if (QUANTUM4 < WORKLOAD4) {
-                running4 = 0;
-            }
+			break;
+	}
 
-            break;
-        }                
-                // kill(processes[i], SIGCONT);
-            // wait(NULL);
-            
-    kill(processes[i], SIGCONT);
-    wait(NULL);
-	clock_gettime(CLOCK_MONOTONIC, &end_time);
-	response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_nsec - start_times[i].tv_nsec) / 1000;
-	printf("Process ID: %d, Execution Workload: %ld, Response Time: %ld microseconds\n", processes[i], execution_times[i], response_times[i]);
-    }
+
+	// fcfs for each process
+	kill(processes[i], SIGCONT);
+	waitpid(processes[i], &runners[i],0);
+
+	
+	// clocking execution/response time for each process
+	clock_gettime(CLOCK_MONOTONIC, &end_times[i]);
+	response_times[i] = (end_times[i].tv_nsec - start_times.tv_nsec) * 1000000 + (end_times[i].tv_nsec - start_times.tv_nsec) / 1000;
+	total_response_time += response_times[i];
+
+
+	printf("Process ID: %d, Execution Workload: %llu, Response Time: %llu microseconds\n", processes[i], execution_times[i], response_times[i]);
+
+
+	}
+	// total average turn around time calculation
+	unsigned long int average_response_time = total_response_time / NUM_PROCESSES;
+    printf("Average Response Time: %lu microseconds\n", average_response_time);
 
 }
+
     
 	/************************************************************************************************
 		- Scheduling code ends here
