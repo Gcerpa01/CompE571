@@ -99,67 +99,59 @@ int main(int argc, char const *argv[])
 
 
 	/************************************************************************************************
-    - Scheduling code starts here
-************************************************************************************************/
+		- Scheduling code starts here
+	************************************************************************************************/
 
-pid_t processes[] = {pid1, pid2, pid3, pid4};
-int runners[] = {running1, running2, running3, running4};
-double execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
-int NUM_PROCESSES = 4;
-double response_times[] = {0, 0, 0, 0};
-double total_response_time = 0;
+    pid_t processes[] = {pid1, pid2, pid3, pid4};
+	int runners[] = {running1, running2, running3, running4};
+	int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
+	int NUM_PROCESSES = 4;
+	float response_times[] = {0, 0, 0, 0};
+	float total_response_time = 0;
 
-struct timespec 
-    start_times,
-    end_times[NUM_PROCESSES];
-struct timespec context_switch_time = {0, 0}; // Add this line for context switch measurements
 
-// initiate process readiness for the scheduler
-running1 = 1;
-running2 = 1;
-running3 = 1;
-running4 = 1;
 
-int total_execution_time = 0;
+	struct timespec 
+		start_times,
+		end_times[NUM_PROCESSES];
+	
+	// iniiate process readiness for scheduler
+	running1 = 1;
+	running2 = 1;
+	running3 = 1;
+	running4 = 1;
 
-// initiate timer for all processes
-clock_gettime(CLOCK_MONOTONIC, &start_times);
 
-for (int i = 0; i < NUM_PROCESSES; i++) {
-    // Measure context switch time
-    struct timespec start_context_switch, end_context_switch;
-    clock_gettime(CLOCK_MONOTONIC, &start_context_switch);
+	int total_execution_time = 0;
 
-    kill(processes[i], SIGCONT);
-    waitpid(processes[i], &runners[i], 0);
+	// initiate timer for all processes
+	clock_gettime(CLOCK_MONOTONIC, &start_times);
 
-    clock_gettime(CLOCK_MONOTONIC, &end_context_switch);
-    long context_switch_ns = (end_context_switch.tv_sec - start_context_switch.tv_sec) * 1000000000 + (end_context_switch.tv_nsec - start_context_switch.tv_nsec);
-    context_switch_time.tv_sec += context_switch_ns / 1000000000;
-    context_switch_time.tv_nsec += context_switch_ns % 1000000000;
+	for (int i = 0; i < NUM_PROCESSES; i++) {
 
-    // clocking execution/response time for each process
-    clock_gettime(CLOCK_MONOTONIC, &end_times[i]);
-    if (i == 0) {
-        response_times[0] = (end_times[0].tv_nsec);
-    } 
-    else if (i > 0) {
-        response_times[i] = (end_times[i].tv_nsec - start_times.tv_nsec);
-        total_response_time += response_times[i];
+		kill(processes[i], SIGCONT);
+		waitpid(processes[i], &runners[i],0);
+	
+		//clocking execution/response time for each process
+		clock_gettime(CLOCK_MONOTONIC, &end_times[i]);
+		if (i==0) {
+			response_times[0] = (end_times[0].tv_nsec);
+		} 
+		else if (i >0) {
+			response_times[i] = (end_times[i].tv_nsec - start_times.tv_nsec);
+			total_response_time += response_times[i];
+		}
+
+	printf("Process ID: %d, Execution Workload: %d, Response Time: %f nanoseconds\n", processes[i], execution_times[i], response_times[i]);
+
     }
 
-    printf("Process ID: %d, Execution Workload: %f, Response Time: %f nanoseconds\n", processes[i], execution_times[i], response_times[i]);
+    double average_response_time = total_response_time / NUM_PROCESSES;
+    printf("Average Response Time: %f nanoseconds\n", average_response_time);
+
+	printf("total execution time: %f\n", total_response_time);
+	return 0;   
 }
-
-double average_response_time = total_response_time / NUM_PROCESSES;
-printf("Average Response Time: %f nanoseconds\n", average_response_time);
-
-printf("Total Context Switching Time: %ld seconds %ld nanoseconds\n", context_switch_time.tv_sec, context_switch_time.tv_nsec);
-
-printf("Total Execution Time: %f\n", total_response_time);
-return 0;
-}
-
-/************************************************************************************************
-    - Scheduling code ends here
-************************************************************************************************/
+	/************************************************************************************************
+		- Scheduling code ends here
+	************************************************************************************************/
