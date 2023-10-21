@@ -178,9 +178,10 @@ int main(int argc, char const *argv[])
 	unsigned long int average_response_time = total_response_time / NUM_PROCESSES;
     printf("Average Response Time: %lu microseconds\n", average_response_time);
 
-}
-
-    
 	/************************************************************************************************
 		- Scheduling code ends here
 	************************************************************************************************/
+
+	return 0;
+	}
+}
