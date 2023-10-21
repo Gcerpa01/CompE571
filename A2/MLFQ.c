@@ -13,9 +13,9 @@
 		the time quantum values for Round Robin scheduling for each task.
 *************************************************************************************************/
 
-#define WORKLOAD1 100000
-#define WORKLOAD2 50000
-#define WORKLOAD3 25000
+#define WORKLOAD1 10000
+#define WORKLOAD2 10000
+#define WORKLOAD3 10000
 #define WORKLOAD4 10000
 
 #define QUANTUM1 1000
@@ -104,83 +104,83 @@ int main(int argc, char const *argv[])
 
     int level1 = 1, level2 = 1, level3 = 1, level4 = 1; // Flags to indicate which level a process is in
 
-    running1 = 1;
-    running2 = 1;
-    running3 = 1;
-    running4 = 1;
+    pid_t processes[] = {pid1, pid2, pid3, pid4};
+	int runners[] = {running1, running2, running3, running4};
+    int NUM_PROCESSES = 4;
+    unsigned long long int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
+	unsigned long long int response_times[] = {0, 0, 0, 0};
+	unsigned long long int total_response_time = 0;
 
     while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0)
     {
         printf("Checking queues\n");
 
-        // Round-Robin queue (First Level)
-        if (level1 && running1 > 0){
-            printf("Round-Robin, First Level: Process 1\n");
-            kill(pid1, SIGCONT);
-            usleep(QUANTUM1);
-            kill(pid1, SIGSTOP);
-            level1 = 0; // Move to FCFS queue (Second Level)
-        }
-        if (level2 && running2 > 0){
-            printf("Round-Robin, First Level: Process 2\n");
-            kill(pid2, SIGCONT);
-            usleep(QUANTUM2);
-            kill(pid2, SIGSTOP);
-            level2 = 0; // Move to FCFS queue (Second Level)
-        }
-        if (level3 && running3 > 0){
-            printf("Round-Robin, First Level: Process 3\n");
-            kill(pid3, SIGCONT);
-            usleep(QUANTUM3);
-            kill(pid3, SIGSTOP);
-            level3 = 0; // Move to FCFS queue (Second Level)
-        }
-        if (level4 && running4 > 0){
-            printf("Round-Robin, First Level: Process 4\n");
-            kill(pid4, SIGCONT);
-            usleep(QUANTUM4);
-            kill(pid4, SIGSTOP);
-            level4 = 0; // Move to FCFS queue (Second Level)
-        }
+	struct timespec 
+		start_times,
+		end_times[NUM_PROCESSES];
 
-        // FCFS queue (Second Level)
-        if (!level1 && running1 > 0){
-            printf("FCFS, Second Level: Process 1\n");
-            kill(pid1, SIGCONT);
-            usleep(QUANTUM1);
-            kill(pid1, SIGSTOP);
-        }
-        if (!level2 && running2 > 0){
-            printf("FCFS, Second Level: Process 2\n");
-            kill(pid2, SIGCONT);
-            usleep(QUANTUM2);
-            kill(pid2, SIGSTOP);
-        }
-        if (!level3 && running3 > 0){
-            printf("FCFS, Second Level: Process 3\n");
-            kill(pid3, SIGCONT);
-            usleep(QUANTUM3);
-            kill(pid3, SIGSTOP);
-        }
-        if (!level4 && running4 > 0){
-            printf("FCFS, Second Level: Process 4\n");
-            kill(pid4, SIGCONT);
-            usleep(QUANTUM4);
-            kill(pid4, SIGSTOP);
-        }
+	// iniitalize runners
+	running1 = 1;
+	running2 = 1;
+	running3 = 1;
+	running4 = 1;
 
-        printf("Checking if processes are still running\n");
-        waitpid(pid1, &running1, WNOHANG);
-        waitpid(pid2, &running2, WNOHANG);
-        waitpid(pid3, &running3, WNOHANG);
-        waitpid(pid4, &running4, WNOHANG);
-    }
+	// start initial timer for all processes
+	clock_gettime(CLOCK_MONOTONIC, &start_times);
 
-    printf("Scheduling code ends\n");
-    /************************************************************************************************
-        - Scheduling code ends here
-    ************************************************************************************************/
+    for (int i = 0; i < NUM_PROCESSES; i++) {
+
+		// initiate RR with QUANTUM constraints
+        while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0) {
+
+            if (running1 > 0){
+                kill(pid1, SIGCONT);
+                usleep(QUANTUM1);
+                kill(pid1, SIGSTOP);
+
+            }
+            if (running2 > 0){
+                kill(pid2, SIGCONT);
+                usleep(QUANTUM2);
+                kill(pid2, SIGSTOP);
+
+            }
+            if (running3 > 0){
+                kill(pid3, SIGCONT);
+                usleep(QUANTUM3);
+                kill(pid3, SIGSTOP);
+            }
+            if (running4 > 0){
+                kill(pid4, SIGCONT);
+                usleep(QUANTUM4);
+                kill(pid4, SIGSTOP);
+            }
+			break;
+	}
 
 
-    return 0;
+	// fcfs for each process
+	kill(processes[i], SIGCONT);
+	waitpid(processes[i], &runners[i],0);
+
+	
+	// clocking execution/response time for each process
+	clock_gettime(CLOCK_MONOTONIC, &end_times[i]);
+	response_times[i] = (end_times[i].tv_nsec - start_times.tv_nsec) * 1000000 + (end_times[i].tv_nsec - start_times.tv_nsec) / 1000;
+	total_response_time += response_times[i];
+
+
+	printf("Process ID: %d, Execution Workload: %llu, Response Time: %llu microseconds\n", processes[i], execution_times[i], response_times[i]);
+
+
+	}
+	// total average turn around time calculation
+	unsigned long int average_response_time = total_response_time / NUM_PROCESSES;
+    printf("Average Response Time: %lu microseconds\n", average_response_time);
+
 }
+
+    
+	/************************************************************************************************
+		- Scheduling code ends here
+	************************************************************************************************/

@@ -113,10 +113,6 @@ int main(int argc, char const *argv[])
 		end_time;
 	
 	// iniiate process readiness for scheduler
-	running1 = 1;
-	running2 = 1;
-	running3 = 1;
-	running4 = 1;
 
     // from round robin sample.c program
     while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0)    //while loop for each process running
