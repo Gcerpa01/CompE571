@@ -18,10 +18,10 @@
 #define WORKLOAD3 25000
 #define WORKLOAD4 10000
 
-#define QUANTUM1 1000
-#define QUANTUM2 1000
-#define QUANTUM3 1000
-#define QUANTUM4 1000
+#define QUANTUM1 150
+#define QUANTUM2 150
+#define QUANTUM3 150
+#define QUANTUM4 150
 
 /************************************************************************************************ 
 					DO NOT CHANGE THE FUNCTION IMPLEMENTATION
@@ -108,8 +108,11 @@ int main(int argc, char const *argv[])
 	
     int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
     int response_times[] = {0, 0, 0, 0};
+	int total_response_time = 0;
     int NUM_PROCESSES = 4;
 	struct timespec start_times[NUM_PROCESSES], end_time;
+
+	printf("Executing test with QUANTUM1: %d, QUANTUM2: %d, QUANTUM3: %d, QUANTUM4: %d.\n", QUANTUM1, QUANTUM2, QUANTUM3, QUANTUM4);
 
 	// Round-Robin scheduling
     running1 = 1;
@@ -162,6 +165,14 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < NUM_PROCESSES; i++) {
         printf("Process ID: %d, Execution Workload: %d, Response Time: %d microseconds\n", getpid(), execution_times[i], response_times[i]);
     }
+
+	for (int i = 0; i < NUM_PROCESSES; i++){
+		total_response_time += response_times[i];
+	}
+
+	int average_response_time = total_response_time / NUM_PROCESSES;
+
+	printf("Average Response Time: %d microseconds.\n", average_response_time);
 
 	/************************************************************************************************
 		- Scheduling code ends here
