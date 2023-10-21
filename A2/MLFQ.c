@@ -14,7 +14,7 @@
 *************************************************************************************************/
 
 #define WORKLOAD1 100000
-#define WORKLOAD2 50000
+#define WORKLOAD2 500000
 #define WORKLOAD3 25000
 #define WORKLOAD4 10000
 
@@ -104,10 +104,8 @@ int main(int argc, char const *argv[])
 
     pid_t processes[] = {pid1, pid2, pid3, pid4};
     int NUM_PROCESSES = 4;
-    int level[] = {0, 0, 0, 0}; // levels for processes
     long int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
 	long int response_times[] = {0, 0, 0, 0};
-
 
 	struct timespec 
 		start_times[NUM_PROCESSES],
@@ -121,93 +119,59 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < NUM_PROCESSES; i++) {
         clock_gettime(CLOCK_MONOTONIC, &start_times[i]);
 
-        if (response_times[i] == 0) {
+        while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0) {
 
-            while (1) {
-                int current_level = level[i];
-                level[i] = 0;
-                switch (current_level) {
-                    case 0:
-                        while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0) {
-                            /* TODO: Work on how to verify transition to FCFS for when QUANTUM < WORKLOAD
-                                and what to do in even Quantum > WORKLOAD
-                                */ 
-                            
-
-
-                            kill(pid1, SIGCONT);
-                            usleep(QUANTUM1);
-                            kill(pid1, SIGSTOP);
-
-                            if (QUANTUM1 < WORKLOAD1){
-                                running1 = 0;
-                            }
-                            
-
-                            kill(pid2, SIGCONT);
-                            usleep(QUANTUM2);
-                            kill(pid2, SIGSTOP);
-
-                            if (QUANTUM2 < WORKLOAD2){
-                                running2 = 0;
-                            }
-
-                            kill(pid3, SIGCONT);
-                            usleep(QUANTUM3);
-                            kill(pid3, SIGSTOP);
-
-                            if (QUANTUM3 < WORKLOAD3){
-                                running3 = 0;
-                            }
-
-                            kill(pid4, SIGCONT);
-                            usleep(QUANTUM4);
-                            kill(pid4, SIGSTOP);
-
-                            if (QUANTUM4 < WORKLOAD4){
-                                running4 = 0;
-                            }
-                        }
-
-                        if (running1 == 0 && running2 == 0 && running3 == 0 && running4 == 0) {
-                            level[i] = 1;   
-                        }
-                        break;
-
-                    case 1:
-                        if (level[i] == 1) {
-                            waitpid(pid1, &running1, WNOHANG);
-                            waitpid(pid2, &running2, WNOHANG);
-                            waitpid(pid3, &running3, WNOHANG);
-                            waitpid(pid4, &running4, WNOHANG);
-                        }
-                        break;
-
-                    default:   
-                        break;
-                }
-            
-
-               //while loop for each process running
+            if (running1 > 0){
+                kill(pid1, SIGCONT);
+                usleep(QUANTUM1);
+                kill(pid1, SIGSTOP);
             }
-        clock_gettime(CLOCK_MONOTONIC, &end_time);
-        response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_nsec - start_times[i].tv_nsec) / 1000;
-        printf("Process ID: %d, Execution Workload: %ld, Response Time: %ld microseconds\n", processes[i], execution_times[i], response_times[i]);
-        break;        
-       
+            if (running2 > 0){
+                kill(pid2, SIGCONT);
+                usleep(QUANTUM2);
+                kill(pid2, SIGSTOP);
+            }
+            if (running3 > 0){
+                kill(pid3, SIGCONT);
+                usleep(QUANTUM3);
+                kill(pid3, SIGSTOP);
+            }
+            if (running4 > 0){
+                kill(pid4, SIGCONT);
+                usleep(QUANTUM4);
+                kill(pid4, SIGSTOP);
+            }
+            waitpid(pid1, &running1, WNOHANG);
+            if (QUANTUM1 < WORKLOAD1) {
+                running1 = 0;
+            }
+            waitpid(pid2, &running2, WNOHANG);
+            if (QUANTUM2 < WORKLOAD2) {
+                running2 = 0;
+            }
+            waitpid(pid3, &running3, WNOHANG);
+            if (QUANTUM3 < WORKLOAD3) {
+                running3 = 0;
+            }
+            waitpid(pid4, &running4, WNOHANG);
+            if (QUANTUM4 < WORKLOAD4) {
+                running4 = 0;
+            }
+
+            break;
+        }                
+                // kill(processes[i], SIGCONT);
+            // wait(NULL);
+            
+    kill(processes[i], SIGCONT);
+    wait(NULL);
+	clock_gettime(CLOCK_MONOTONIC, &end_time);
+	response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_nsec - start_times[i].tv_nsec) / 1000;
+	printf("Process ID: %d, Execution Workload: %ld, Response Time: %ld microseconds\n", processes[i], execution_times[i], response_times[i]);
     }
 
-    // avg response time calculation
-    int total_response_time = 0;
-    for (int i = 0; i < NUM_PROCESSES; i++) {
-        total_response_time += response_times[i];
-    }
-    int average_response_time = total_response_time / NUM_PROCESSES;
-    printf("Avg Response Time: %d microseconds\n", average_response_time);
-
-    return 0;
-    }
 }
+    
 	/************************************************************************************************
 		- Scheduling code ends here
 	************************************************************************************************/
