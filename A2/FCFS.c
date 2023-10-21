@@ -103,48 +103,55 @@ int main(int argc, char const *argv[])
 	************************************************************************************************/
 
     pid_t processes[] = {pid1, pid2, pid3, pid4};
-	int execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
+	int runners[] = {running1, running2, running3, running4};
+	double execution_times[] = {WORKLOAD1, WORKLOAD2, WORKLOAD3, WORKLOAD4};
 	int NUM_PROCESSES = 4;
-	int response_times[] = {0, 0, 0, 0};
+	double response_times[] = {0, 0, 0, 0};
+	double total_response_time = 0;
+
 
 
 	struct timespec 
-		start_times[NUM_PROCESSES],
-		end_time;
+		start_times,
+		end_times[NUM_PROCESSES];
 	
 	// iniiate process readiness for scheduler
+	running1 = 1;
+	running2 = 1;
+	running3 = 1;
+	running4 = 1;
 
-    // from round robin sample.c program
-    while (running1 > 0 || running2 > 0 || running3 > 0 || running4 > 0)    //while loop for each process running
-    {
-        // cycles through each processes and waits for them to terminate before finishing the next, FCFS
-        if (running1 > 0){
-            waitpid(pid1, &running1, WNOHANG); 
-        }
-        if (running2 > 0){
-            waitpid(pid2, &running2, WNOHANG);
-        }
-        if (running3 > 0){
-            waitpid(pid3, &running3, WNOHANG);
-        }
-        if (running4 > 0){
-            waitpid(pid4, &running4, WNOHANG);
-        }
+
+	int total_execution_time = 0;
+
+	// initiate timer for all processes
+	clock_gettime(CLOCK_MONOTONIC, &start_times);
+
+	for (int i = 0; i < NUM_PROCESSES; i++) {
+
+		kill(processes[i], SIGCONT);
+		waitpid(processes[i], &runners[i],0);
+	
+		// clocking execution/response time for each process
+		clock_gettime(CLOCK_MONOTONIC, &end_times[i]);
+		if (i==0) {
+			response_times[0] = (end_times[0].tv_nsec);
+		} 
+		else if (i >0) {
+			response_times[i] = (end_times[i].tv_nsec - start_times.tv_nsec);
+			total_response_time += response_times[i];
+		}
+
+	printf("Process ID: %d, Execution Workload: %f, Response Time: %f nanoseconds\n", processes[i], execution_times[i], response_times[i]);
+
     }
 
-    for (int i = 0; i < NUM_PROCESSES; i++) {
-        clock_gettime(CLOCK_MONOTONIC, &start_times[i]);
-        kill(processes[i], SIGCONT);
-        wait(NULL); // Wait for the child process to finish
-        clock_gettime(CLOCK_MONOTONIC, &end_time);
-        response_times[i] = (end_time.tv_sec - start_times[i].tv_sec) * 1000000 + (end_time.tv_nsec - start_times[i].tv_nsec) / 1000;
-		printf("Process ID: %d, Execution Workload: %d, Response Time: %d microseconds\n", processes[i], execution_times[i], response_times[i]);
-    }
+    double average_response_time = total_response_time / NUM_PROCESSES;
+    printf("Average Response Time: %f nanoseconds\n", average_response_time);
+
+	printf("total execution time: %f\n", total_response_time);
+	return 0;   
+}
 	/************************************************************************************************
 		- Scheduling code ends here
 	************************************************************************************************/
-
-
-    return 0;
-
-}
