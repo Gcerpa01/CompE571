@@ -1,6 +1,6 @@
 import sys
 import process
-
+from EDF import edf
 # import os
 
 if len(sys.argv) != 3 and len(sys.argv) != 4:
@@ -34,5 +34,8 @@ if len(file_name) < 4 or file_name[-4:] != ".txt":
     sys.exit(1)
 
 scheduler_data = process.parse_file(sys.argv[1])
+
+if sys.argv[2] == "EDF":
+    edf(scheduler_data)
 
 sys.exit(0)

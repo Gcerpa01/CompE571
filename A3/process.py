@@ -11,7 +11,7 @@ class Task:
 
     time_left: int = 0
     deadline: int = 0
-
+    state : int = 0
 
 @dataclass
 class Scheduler:
@@ -20,6 +20,15 @@ class Scheduler:
     power_clk: list[int]
     wTasks:list[Task]
 
+    tot_energy: float = 0.0
+    idle_rate: float = 0.0
+    exec_time_passed: int = 0
+
+@dataclass
+class SchedOrg:
+    task: str
+    freq: int
+    power: int
 
 
 def parse_file(fileName:str) -> Scheduler:
@@ -47,4 +56,6 @@ def parse_file(fileName:str) -> Scheduler:
     return Scheduler(tasks,exec_time,power_clk,wTasks)
 
     
+
+
 
