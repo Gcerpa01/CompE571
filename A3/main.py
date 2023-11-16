@@ -1,4 +1,6 @@
 import sys
+import process
+
 # import os
 
 if len(sys.argv) != 3 and len(sys.argv) != 4:
@@ -31,7 +33,6 @@ if len(file_name) < 4 or file_name[-4:] != ".txt":
     print("-------------------------------------------\n")
     sys.exit(1)
 
-path = "."
+scheduler_data = process.parse_file(sys.argv[1])
 
 sys.exit(0)
-# os.system("./hello")
