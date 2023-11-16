@@ -1,0 +1,37 @@
+import sys
+# import os
+
+if len(sys.argv) != 3 and len(sys.argv) != 4:
+    print("\n-------------------------------------------")
+    print("Incorrect arguments. Please use the format:")
+    print("your_program input_file_name.txt schedule_policy")
+    print("-------------------------------------------\n")
+    sys.exit(1)
+
+if sys.argv[2] not in ["EDF", "RM"]:
+    print("-------------------------------------------")
+    print("Invalid argument for schedule policy")
+    print("The available arguments for schedule policies are EDF and RM")
+    print("-------------------------------------------\n")
+    sys.exit(1)
+
+if len(sys.argv) == 4 and sys.argv[3] not in ["" , "EE"]:
+    print("\n-------------------------------------------")
+    print("For energy efficiency please use the format:")
+    print("your_program input_file_name schedule_policy EE")
+    print("Otherwise please omit EE")
+    print("-------------------------------------------\n")
+    sys.exit(1)
+
+
+file_name = sys.argv[1]
+if len(file_name) < 4 or file_name[-4:] != ".txt":
+    print("-------------------------------------------")
+    print("Error: only '.txt' files are supported")
+    print("-------------------------------------------\n")
+    sys.exit(1)
+
+path = "."
+
+sys.exit(0)
+# os.system("./hello")
