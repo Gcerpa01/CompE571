@@ -40,6 +40,9 @@ def edf(data: Scheduler):
     time_start = 1 
     counter = 1 
 
+    print("-------------------------------------------")
+    print("\tPrinting Schedule Process")
+    print("-------------------------------------------")
 
     for i in range(1, len(sched_query)):
         ##check if task has changed
@@ -65,6 +68,11 @@ def edf(data: Scheduler):
     for i in range(min(data.exec_time,len(sched_query))):
         data.tot_energy += sched_query[i].power
     data.tot_energy /= 1000.0
+
+    print("\n")
+    print("-------------------------------------------")
+    print("\tAdditional Information")
+    print("-------------------------------------------")
     print("Total Energy Consumption: {}J\tIdle Rate: {}% \tTotal Execution Time: {}s".format(data.tot_energy,data.idle_rate,data.exec_time_passed))
 
 

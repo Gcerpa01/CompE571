@@ -24,7 +24,10 @@ if len(sys.argv) == 4 and sys.argv[3] not in ["" , "EE"]:
     print("Otherwise please omit EE")
     print("-------------------------------------------\n")
     sys.exit(1)
-
+elif len(sys.argv) == 4 and sys.argv[3] == "EE":
+    EE = True
+else:
+    EE = False
 
 file_name = sys.argv[1]
 if len(file_name) < 4 or file_name[-4:] != ".txt":
@@ -33,9 +36,18 @@ if len(file_name) < 4 or file_name[-4:] != ".txt":
     print("-------------------------------------------\n")
     sys.exit(1)
 
+
 scheduler_data = process.parse_file(sys.argv[1])
 
-if sys.argv[2] == "EDF":
+if sys.argv[2] == "EDF" and not EE:
+    print("-------------------------------------------")
+    print("\tNow running EDF")
+    print("-------------------------------------------\n")
     edf(scheduler_data)
+if sys.argv[2] == "RM" and not EE:
+    print("-------------------------------------------")
+    print("\tNow running RM")
+    print("-------------------------------------------\n")
+
 
 sys.exit(0)
