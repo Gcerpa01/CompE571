@@ -6,7 +6,7 @@ import process
 if len(sys.argv) != 3 and len(sys.argv) != 4:
     print("\n-------------------------------------------")
     print("Incorrect arguments. Please use the format:")
-    print("your_program input_file_name.txt schedule_policy")
+    print("your_program <input_file_name> <EDF or RM> [EE]")
     print("-------------------------------------------\n")
     sys.exit(1)
 
@@ -20,7 +20,7 @@ if sys.argv[2] not in ["EDF", "RM"]:
 if len(sys.argv) == 4 and sys.argv[3] not in ["" , "EE"]:
     print("\n-------------------------------------------")
     print("For energy efficiency please use the format:")
-    print("your_program input_file_name schedule_policy EE")
+    print("your_program <input_file_name> <EDF or RM> [EE]")
     print("Otherwise please omit EE")
     print("-------------------------------------------\n")
     sys.exit(1)
