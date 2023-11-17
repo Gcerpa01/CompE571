@@ -1,4 +1,5 @@
 from DataParsing import Scheduler,Task,SchedOrg
+from math import lcm
 
 ##update deadline if it has been reached
 def update_deadline(data: Scheduler, curr_time: int):
@@ -37,3 +38,9 @@ def create_query(data:Scheduler,mode:str)->list[SchedOrg]:
             next_task.time_left -= 1
             sched_query.append(SchedOrg(next_task.name,next_task.state,data.power_clk[next_task.state]))
     return sched_query
+
+def get_hyperperiod(data:Scheduler):
+    periods = []
+    for wTask in data.wTasks:
+        periods.append(wTask.period)
+    return lcm(*periods)

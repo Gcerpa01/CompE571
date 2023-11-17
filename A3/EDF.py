@@ -1,5 +1,6 @@
 from DataParsing import Scheduler,CLK_TIMES
-from SharedFunctions import create_query
+from SharedFunctions import create_query,get_hyperperiod
+from itertools import product
 
 def edf(data: Scheduler):
     sched_query = create_query(data,"RM")
@@ -42,5 +43,20 @@ def edf(data: Scheduler):
     print("\tAdditional Information")
     print("-------------------------------------------")
     print("Total Energy Consumption: {}J\tIdle Rate: {}% \tTotal Execution Time: {}s".format(data.tot_energy,data.idle_rate,data.exec_time_passed))
+
+
+
+
+def edf_ee(data:Scheduler):
+    task_power_combos = product(range(len(CLK_TIMES)-1),repeat=len(data.wTasks))
+    hyperperiod = get_hyperperiod(data)
+
+    best_choice:Scheduler = None
+
+    ##make copy
+    tmp_states = [wTask.state for wTask in data.wTasks]
+    tmp_time_left = [wTask.time_left for wTask in data.wTasks]
+
+        
 
 

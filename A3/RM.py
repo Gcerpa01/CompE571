@@ -44,4 +44,3 @@ def rm(data:Scheduler):
     print("\tAdditional Information")
     print("-------------------------------------------")
     print("Total Energy Consumption: {}J\tIdle Rate: {}% \tTotal Execution Time: {}s".format(data.tot_energy,data.idle_rate,data.exec_time_passed))
-

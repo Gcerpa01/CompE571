@@ -1,6 +1,6 @@
 import sys
 import DataParsing
-from EDF import edf
+from EDF import edf,edf_ee
 from RM import rm
 
 # import os
@@ -46,6 +46,12 @@ if sys.argv[2] == "EDF" and not EE:
     print("\tNow running EDF")
     print("-------------------------------------------\n")
     edf(scheduler_data)
+elif sys.argv[2] == "EDF" and EE:
+    print("-------------------------------------------")
+    print("\tNow running EDF EE")
+    print("-------------------------------------------\n")
+    edf_ee(scheduler_data)
+
 elif sys.argv[2] == "RM" and not EE:
     print("-------------------------------------------")
     print("\tNow running RM")
