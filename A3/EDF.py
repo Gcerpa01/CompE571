@@ -17,7 +17,7 @@ def edf(data: Scheduler):
             sched_query.append(SchedOrg(earliest_task.name,0,data.power_clk[earliest_task.state]))
 
     
-    first_task = sched_query[0]
+    prev_task = sched_query[0]
     time_start = 1 
     counter = 1 
 
@@ -27,18 +27,18 @@ def edf(data: Scheduler):
 
     for i in range(1, len(sched_query)):
         ##check if task has changed
-        if(sched_query[i].task == first_task.task) and (i != len(sched_query) - 1):
+        if(sched_query[i].task == prev_task.task) and (i != len(sched_query) - 1):
             counter+= 1
         else:
             ##calculate cosumption based on time task was scheduled
-            power_consumption = (first_task.power*counter)/1000.0
-            print("{}\t{}\t{}\t{}\t{} J".format(time_start,first_task.task,CLK_TIMES[first_task.freq],counter,power_consumption))
+            power_consumption = (prev_task.power*counter)/1000.0
+            print("{}\t{}\t{}\t{}\t{} J".format(time_start,prev_task.task,CLK_TIMES[prev_task.freq],counter,power_consumption))
             counter = 1
             time_start = i + 1
         if sched_query[i].freq == 4: ##IDLE State
             data.exec_time_passed += 1
 
-        first_task = sched_query[i]
+        prev_task = sched_query[i]
     
     ##Calculatations
     data.idle_rate = (data.exec_time_passed / data.exec_time)*100
