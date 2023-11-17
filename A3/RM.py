@@ -1,20 +1,9 @@
-from DataParsing import Task,Scheduler,SchedOrg,CLK_TIMES
-from SharedFunctions import get_earliest_task,update_deadline
+from DataParsing import Scheduler,CLK_TIMES
+from SharedFunctions import create_query
 
 
 def rm(data:Scheduler):
-    sched_query: list[SchedOrg] = []
-
-    for i in range(1,data.exec_time+1):
-        update_deadline(data,i)
-        earliest_task = get_earliest_task(data,"RM")
-        ##Check if in idle state
-        if earliest_task is None:
-            sched_query.append(SchedOrg("IDLE",4,data.power_clk[4]))
-        else:
-            ##update time to symbolize time has passed
-            earliest_task.time_left -= 1
-            sched_query.append(SchedOrg(earliest_task.name,0,data.power_clk[earliest_task.state]))
+    sched_query = create_query(data,"RM")
 
     prev_task = sched_query[0]
     time_start = 1 
@@ -23,6 +12,7 @@ def rm(data:Scheduler):
     print("-------------------------------------------")
     print("\tPrinting Schedule Process")
     print("-------------------------------------------")
+
 
     for i in range(1, len(sched_query)):
         ##check if task has changed

@@ -27,7 +27,6 @@ class SchedOrg:
         self.freq = freq
         self.power = power
 
-
 def parse_file(fileName:str) -> Scheduler:
     try:
         with open(fileName,'r') as file:
