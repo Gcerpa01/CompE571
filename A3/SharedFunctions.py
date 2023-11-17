@@ -8,16 +8,16 @@ def update_deadline(data: Scheduler, curr_time: int):
             wTask.time_left = wTask.wcet_clk[wTask.state]
     return
 
-##find the earliest task
+##find the next task based on the mode(EDF / RM)
 def get_next_task(data:Scheduler,mode:str) -> Task:
     next_task: Task = None
     for wTask in data.wTasks:
         if (wTask.time_left > 0) and next_task is None:
             next_task = wTask
         elif wTask.time_left > 0:
-            if mode == "EDF" and (wTask.deadline < next_task.deadline): ##deadline based
+            if mode == "EDF" and (wTask.deadline < next_task.deadline): ## Earlier Deadline
                 next_task = wTask
-            elif mode == "RM" and (wTask.period < next_task.period): ##period based
+            elif mode == "RM" and (wTask.period < next_task.period): ## Lower Period
                 next_task = wTask
 
     return next_task

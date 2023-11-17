@@ -29,21 +29,22 @@ class SchedOrg:
 
 def parse_file(fileName:str) -> Scheduler:
     try:
-        with open(fileName,'r') as file:
+        with open(fileName,'r') as file: ##check if file can be opened
             lines = file.readlines()
-    except FileNotFoundError:
+    except FileNotFoundError: ##return error if not found
         print("Error: The file {} was not found".format(fileName))
         sys.exit(1)
-    except Exception as e:
+    except Exception as e: ##demonstrate error opening files
         print("Unable to open the file {} due to exception: {}".format(fileName,e))
         sys.exit(1)
 
     system_info = lines[0].split()
     
-    tasks, exec_time, *power_clk = map(int, system_info)
+    tasks, exec_time, *power_clk = map(int, system_info) ##note as system info
 
     wTasks = []
 
+    ##append all tasks to vector
     for line in lines[1:]:
         task_desc = line.split()
         taskName, taskPeriod, *wcet_clk = task_desc
