@@ -1,13 +1,13 @@
 from DataParsing import Task,Scheduler,SchedOrg,CLK_TIMES
 from SharedFunctions import get_earliest_task,update_deadline
 
-def edf(data: Scheduler):
+
+def rm(data:Scheduler):
     sched_query: list[SchedOrg] = []
 
-    ##iterate through tasks
     for i in range(1,data.exec_time+1):
         update_deadline(data,i)
-        earliest_task = get_earliest_task(data,"EDF")
+        earliest_task = get_earliest_task(data,"RM")
         ##Check if in idle state
         if earliest_task is None:
             sched_query.append(SchedOrg("IDLE",4,data.power_clk[4]))
@@ -16,7 +16,6 @@ def edf(data: Scheduler):
             earliest_task.time_left -= 1
             sched_query.append(SchedOrg(earliest_task.name,0,data.power_clk[earliest_task.state]))
 
-    
     first_task = sched_query[0]
     time_start = 1 
     counter = 1 
@@ -55,7 +54,4 @@ def edf(data: Scheduler):
     print("\tAdditional Information")
     print("-------------------------------------------")
     print("Total Energy Consumption: {}J\tIdle Rate: {}% \tTotal Execution Time: {}s".format(data.tot_energy,data.idle_rate,data.exec_time_passed))
-
-
-
 

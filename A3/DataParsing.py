@@ -54,8 +54,3 @@ def parse_file(fileName:str) -> Scheduler:
         wTasks.append(Task(taskName,int(taskPeriod),list(map(int,wcet_clk)),int(wcet_clk[0]),int(taskPeriod)))
     
     return Scheduler(tasks,exec_time,power_clk,wTasks)
-
-    
-
-
-

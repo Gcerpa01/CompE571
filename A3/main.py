@@ -1,6 +1,8 @@
 import sys
-import process
+import DataParsing
 from EDF import edf
+from RM import rm
+
 # import os
 
 if len(sys.argv) != 3 and len(sys.argv) != 4:
@@ -37,17 +39,17 @@ if len(file_name) < 4 or file_name[-4:] != ".txt":
     sys.exit(1)
 
 
-scheduler_data = process.parse_file(sys.argv[1])
+scheduler_data = DataParsing.parse_file(sys.argv[1])
 
 if sys.argv[2] == "EDF" and not EE:
     print("-------------------------------------------")
     print("\tNow running EDF")
     print("-------------------------------------------\n")
     edf(scheduler_data)
-if sys.argv[2] == "RM" and not EE:
+elif sys.argv[2] == "RM" and not EE:
     print("-------------------------------------------")
     print("\tNow running RM")
     print("-------------------------------------------\n")
-
+    rm(scheduler_data)
 
 sys.exit(0)
