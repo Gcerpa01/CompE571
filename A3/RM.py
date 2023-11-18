@@ -1,50 +1,46 @@
-from DataParsing import Scheduler, CLK_TIMES
+from DataParsing import Scheduler,CLK_TIMES
+from SharedFunctions import create_query
 
-def calculate_energy(power, duration):
-    return (power * duration) / 1000.0  # Convert mW to J
 
-def rm(data: Scheduler):
-    # Sort tasks by period (shortest period = highest priority)
-    data.wTasks.sort(key=lambda task: task.period)
+def rm(data:Scheduler):
+    sched_query = create_query(data,"RM")
+
+    prev_task = sched_query[0]
+    time_start = 1 
+    counter = 1 
 
     print("-------------------------------------------")
     print("\tPrinting Schedule Process")
     print("-------------------------------------------")
     print("<Time Started>\t<Task Name>\t<CPU Freq>\t<Runtime>\t<NRG Consumed>")
 
-    current_time = 0
-    total_idle_time = 0
+    for i in range(1, len(sched_query)):
+        ##check if task has changed
+        if(sched_query[i].task == prev_task.task) and (i != len(sched_query) - 1):
+            counter+= 1
+        else:
+            ##calculate cosumption based on time task was scheduled
+            power_consumption = (prev_task.power*counter)/1000.0
+            print("{}\t\t{}\t\t{}\t\t{}\t\t{} J".format(time_start,prev_task.task,CLK_TIMES[prev_task.freq],counter,power_consumption))
+            counter = 1
+            time_start = i + 1
+        if sched_query[i].freq == 4: ##IDLE State
+            data.exec_time_passed += 1
 
-    while current_time < data.exec_time:
-        task_scheduled = False
+        prev_task = sched_query[i]
+    
+    ##Calculatations
+    data.idle_rate = (data.exec_time_passed / data.exec_time)*100
+    data.exec_time_passed = data.exec_time - data.exec_time_passed
 
-        for task in data.wTasks:
-            # Check if task is ready to run
-            if current_time % task.period == 0 and task.time_left > 0:
-                runtime = min(task.wcet_clk[0], data.exec_time - current_time)
-                energy_consumed = calculate_energy(data.power_clk[0], runtime)
-                print(f"{current_time}\t\t{task.name}\t\t1188\t\t{runtime}\t\t{energy_consumed} J")
-                task.time_left -= runtime
-                current_time += runtime
-                data.tot_energy += energy_consumed
-                task_scheduled = True
-                break
+    data.tot_energy = 0.0
 
-        if not task_scheduled:
-            # No task scheduled, CPU is idle
-            print(f"{current_time}\t\tIDLE\t\tIDLE\t\t1\t\t{calculate_energy(data.power_clk[-1], 1)} J")
-            data.tot_energy += calculate_energy(data.power_clk[-1], 1)
-            total_idle_time += 1
-            current_time += 1
-
-    # Calculations for additional information
-    data.idle_rate = (total_idle_time / data.exec_time) * 100
-    data.exec_time_passed = data.exec_time - total_idle_time
+    for i in range(min(data.exec_time,len(sched_query))):
+        data.tot_energy += sched_query[i].power
+    data.tot_energy /= 1000.0
 
     print("\n")
     print("-------------------------------------------")
     print("\tAdditional Information")
     print("-------------------------------------------")
-    print(f"Total Energy Consumption: {data.tot_energy:.2f} J\tIdle Rate: {data.idle_rate:.2f}% \tTotal Execution Time: {data.exec_time_passed} s")
-
-
+    print("Total Energy Consumption: {}J\tIdle Rate: {}% \tTotal Execution Time: {}s".format(data.tot_energy,data.idle_rate,data.exec_time_passed))

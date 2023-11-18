@@ -3,7 +3,7 @@ from SharedFunctions import create_query,get_hyperperiod
 from itertools import product
 
 def edf(data: Scheduler):
-    sched_query = create_query(data,"RM")
+    sched_query = create_query(data,"EDF")
 
     prev_task = sched_query[0]
     time_start = 1 
