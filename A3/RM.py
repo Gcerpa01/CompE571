@@ -45,6 +45,6 @@ def rm(data: Scheduler):
     print("-------------------------------------------")
     print("\tAdditional Information")
     print("-------------------------------------------")
-    print(f"Total Energy Consumption: {data.tot_energy}J\tIdle Rate: {data.idle_rate}% \tTotal Execution Time: {data.exec_time_passed}s")
+    print(f"Total Energy Consumption: {data.tot_energy:.2f} J\tIdle Rate: {data.idle_rate:.2f}% \tTotal Execution Time: {data.exec_time_passed} s")
 
 
