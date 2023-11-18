@@ -56,3 +56,7 @@ A1/baseline_times.txt
 A1/multitasking_times.txt
 A1/popen_times.txt
 A1/multithreading_times.txt
+A3/__pycache__/DataParsing.cpython-310.pyc
+A3/__pycache__/EDF.cpython-310.pyc
+A3/__pycache__/RM.cpython-310.pyc
+A3/__pycache__/SharedFunctions.cpython-310.pyc
