@@ -17,16 +17,14 @@ To use the program, follow these command line arguments:
 
 Here are two example calls:
 
-$ ./python main.py input1.txt EDF EE
-$ ./python main.py input2.txt RM
+`$ ./python main.py input1.txt EDF EE`
+`$ ./python main.py input2.txt RM`
 
 ## Input Format
 
 The input file format is as follows:
 
-<# of tasks> <system execution time in seconds>
-<active CPU power @ 1188 Mhz> <active CPU power @ 918 Mhz> <active CPU power @ 648 Mhz> <active CPU power @ 384 Mhz> <idle CPU power @ lowest frequency>
-<name of task> <deadline/period> <WCET @ 1188 Mhz> <WCET @ 918 Mhz> <WCET @ 648 Mhz> <WCET @ 384 Mhz>
+`<# of tasks> <system execution time in seconds> <active CPU power @ 1188 Mhz> <active CPU power @ 918 Mhz> <active CPU power @ 648 Mhz> <active CPU power @ 384 Mhz> <idle CPU power @ lowest frequency> <name of task> <deadline/period> <WCET @ 1188 Mhz> <WCET @ 918 Mhz> <WCET @ 648 Mhz> <WCET @ 384 Mhz>`
 
 - `<# of tasks>`: Number of tasks.
 - `<system execution time in seconds>`: The time the system will execute up to in seconds.
@@ -46,4 +44,4 @@ The program will generate scheduling sequences based on the following four algor
 
 When a task is scheduled, it will output the following information:
 
-<time started> <task name> <CPU frequency task runs at> <how long it ran for> <energy consumed in Joules>
+`<time started> <task name> <CPU frequency task runs at> <how long it ran for> <energy consumed in Joules>`
