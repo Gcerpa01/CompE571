@@ -47,12 +47,17 @@ if sys.argv[2] == "EDF" and not EE:
     edf(scheduler_data)
 elif sys.argv[2] == "EDF" and EE:
     print("-------------------------------------------")
-    print("\tNow running EDF EE")
+    print("\tNow running EDF EE\n")
+    print("\tNote: EE is not finalized")
     edf_ee(scheduler_data)
 
 elif sys.argv[2] == "RM" and not EE:
     print("-------------------------------------------")
     print("\tNow running RM")
     rm(scheduler_data)
+elif sys.argv[2] == "RM" and EE:
+    print("-------------------------------------------")
+    print("\tNow running RM EE")
+    print("\tNote: EE is not finalized")
 
 sys.exit(0)
