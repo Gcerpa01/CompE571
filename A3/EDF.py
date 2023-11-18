@@ -53,11 +53,6 @@ def edf_ee(data:Scheduler):
     hyperperiod = get_hyperperiod(data)
 
     best_choice:Scheduler = None
-
-    ##make copy
-    tmp_states = [wTask.state for wTask in data.wTasks]
-    tmp_time_left = [wTask.time_left for wTask in data.wTasks]
-
         
 
 
