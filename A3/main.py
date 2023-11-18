@@ -44,18 +44,15 @@ scheduler_data = DataParsing.parse_file(sys.argv[1])
 if sys.argv[2] == "EDF" and not EE:
     print("-------------------------------------------")
     print("\tNow running EDF")
-    print("-------------------------------------------\n")
     edf(scheduler_data)
 elif sys.argv[2] == "EDF" and EE:
     print("-------------------------------------------")
     print("\tNow running EDF EE")
-    print("-------------------------------------------\n")
     edf_ee(scheduler_data)
 
 elif sys.argv[2] == "RM" and not EE:
     print("-------------------------------------------")
     print("\tNow running RM")
-    print("-------------------------------------------\n")
     rm(scheduler_data)
 
 sys.exit(0)
