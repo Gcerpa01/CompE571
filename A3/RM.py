@@ -12,7 +12,7 @@ def rm(data:Scheduler):
     print("-------------------------------------------")
     print("\tPrinting Schedule Process")
     print("-------------------------------------------")
-
+    print("<Time Started>\t<Task Name>\t<CPU Freq>\t<Runtime>\t<NRG Consumed>")
 
     for i in range(1, len(sched_query)):
         ##check if task has changed
@@ -21,7 +21,7 @@ def rm(data:Scheduler):
         else:
             ##calculate cosumption based on time task was scheduled
             power_consumption = (prev_task.power*counter)/1000.0
-            print("{}\t{}\t{}\t{}\t{} J".format(time_start,prev_task.task,CLK_TIMES[prev_task.freq],counter,power_consumption))
+            print("{}\t\t{}\t\t{}\t\t{}\t\t{} J".format(time_start,prev_task.task,CLK_TIMES[prev_task.freq],counter,power_consumption))
             counter = 1
             time_start = i + 1
         if sched_query[i].freq == 4: ##IDLE State
