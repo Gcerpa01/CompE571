@@ -55,10 +55,49 @@ def random_replacement(mem_ref, frame_count=32):
     print(f"Total disk references: {dsk_ref}")
     print(f"Total dirty page writes: {dirty_writes}")
 
+def fifo_replacement(mem_ref, frame_count=32):
+    frames = [None] * frame_count  # Physical frames
+    fifo_queue = []  # FIFO queue to track page order
+    pg_faults = 0
+    dsk_ref = 0
+    dirty_writes = 0
 
-def fifo_replacement(mem_ref):
-    print("You are using the FIFO replacement algorithm.")
-    pass
+    # Page table: {virtual_page_number: (physical_frame_number, dirty_bit)}
+    page_table = {}
+
+    for process_id, address, operation in mem_ref:
+        virtual_page_number = address >> 9  # 7 most significant bits
+        is_dirty = operation == 'W'
+
+        if virtual_page_number not in page_table or page_table[virtual_page_number][0] is None:
+            # Page fault occurs
+            pg_faults += 1
+            dsk_ref += 1
+
+            if len(fifo_queue) >= frame_count:
+                # using FIFO queue to track page order
+                frame_to_replace = fifo_queue.pop(0)
+                if page_table[frame_to_replace][1]:  # Check if  dirty bit is set
+                    dirty_writes += 1
+                    dsk_ref += 1
+
+                # Update page table for the replaced frame
+                page_table[frame_to_replace] = (None, False)
+
+            # Find an empty frame or use the replaced frame
+            empty_or_replaced_frame = frames.index(None) if None in frames else frames.index(frame_to_replace)
+            frames[empty_or_replaced_frame] = virtual_page_number
+            fifo_queue.append(virtual_page_number)  # Add page to FIFO queue
+            page_table[virtual_page_number] = (empty_or_replaced_frame, is_dirty)
+        else:
+            # Update page table entry
+            frame_number, _ = page_table[virtual_page_number]
+            page_table[virtual_page_number] = (frame_number, is_dirty)
+
+    print(f"Total page faults: {pg_faults}")
+    print(f"Total disk references: {dsk_ref}")
+    print(f"Total dirty page writes: {dirty_writes}")
+
 
 def lru_replacement(mem_ref):
     print("You are using the LRU replacement algorithm.")
@@ -74,9 +113,9 @@ def extra_replacement(mem_ref):
 
 def simulate_virtual_memory(mem_ref, algorithm):
     if algorithm == 'random':
-        random_replacement(mem_ref)
+        random_replacement(mem_ref, frame_count=32)
     elif algorithm == 'fifo':
-        fifo_replacement(mem_ref)
+        fifo_replacement(mem_ref, frame_count=32) 
     elif algorithm == 'lru':
         lru_replacement(mem_ref)
     elif algorithm == 'per':
