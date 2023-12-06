@@ -22,12 +22,12 @@ This script supports the following page replacement algorithms:
 
 4. **PER Replacement (`per`)**: Whenever a page is referenced, its reference bit is set to 1. After every 200 memory references, your program should set all of the reference bits to 0. When a page fault occurs choose a page to be replaced in the specified order:
 
-        - Look for an unused page (this will only happen early in your simulation).
-        - Look for an unreferenced page (reference bit is 0) where the dirty bit is 0.
-        - Look for an unreferenced page (reference bit is 0) where the dirty bit is 1.
-        - Look for a referenced page (reference bit is 1) where the dirty bit is 0.
-        - Look for a page that is both referenced (reference bit is 1) and dirty (dirty bit is 1).
-        - In order to make the results deterministic, always replace the lowest numbered page in a particular category.
+    - Look for an unused page (this will only happen early in your simulation).
+    - Look for an unreferenced page (reference bit is 0) where the dirty bit is 0.
+    - Look for an unreferenced page (reference bit is 0) where the dirty bit is 1.
+    - Look for a referenced page (reference bit is 1) where the dirty bit is 0.
+    - Look for a page that is both referenced (reference bit is 1) and dirty (dirty bit is 1).
+    - In order to make the results deterministic, always replace the lowest numbered page in a particular category.
 
 5. **Extra Replacement (`extra`)**: The team's own replacement algorithm which is used to outperform the above four in terms of number of page faults, number of dirty page writes, and number of disk accesses.
 
@@ -42,12 +42,12 @@ To use this Python script, follow these steps:
 3. Run the script with the following command:
 
    ```shell
-   python <program_name> <data_file> <algorithm>
+   python <program_name> <data_file> <program_algorithm>
    ```
 
    - Replace <program_name> with the Python file name.
-   - Replase <data_file> with the data file to be used for simulation.
-   - Replace <algorithm> with the algorithm to process.
+   - Replace <data_file> with the data file to be used for simulation.
+   - Replace <program_algorithm> with the algorithm to process.
 
 ## Examples
 
