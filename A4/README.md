@@ -45,9 +45,9 @@ To use this Python script, follow these steps:
    python <program_name> <data_file> <algorithm>
    ```
 
-   - Replace '<program_name>' with the Python file name.
-   - Replase '<data_file>' with the data file to be used for simulation.
-   - Replace '<algorithm>' with the algorithm to process.
+   - Replace <program_name> with the Python file name.
+   - Replase <data_file> with the data file to be used for simulation.
+   - Replace <algorithm> with the algorithm to process.
 
 ## Examples
 
