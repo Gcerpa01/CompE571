@@ -178,7 +178,7 @@ def lfu_rr_replacement(mem_ref, frame_count=32):
 
     current_time = 0
 
-    for address, operation in mem_ref:
+    for process_id, address, operation in mem_ref:
         current_time += 1
         virtual_page_number = address >> 9
         is_dirty = operation == 'W'
@@ -269,7 +269,7 @@ def simulate_virtual_memory(mem_ref, algorithm):
     elif algorithm == 'lru':
         lru_replacement(mem_ref, frame_count=32)
     elif algorithm == 'per':
-        per_replacement(mem_ref)
+        per_replacement(mem_ref, frame_count=32)
     elif algorithm == 'lfurr':
         lfu_rr_replacement(mem_ref, frame_count=32)
     else:
@@ -292,9 +292,9 @@ if __name__ == "__main__":
         lfu_rr_stats = lfu_rr_replacement(references, frame_count=32)
 
         #  data for all algorithms and graph
-        pagefault_stats = [random_stats[0], fifo_stats[0], lru_stats[0]]
-        diskaccess_stats = [random_stats[1], fifo_stats[1], lru_stats[1]]
-        dirtypage_stats = [random_stats[2], fifo_stats[2], lru_stats[2]]
+        pagefault_stats = [random_stats[0], fifo_stats[0], lru_stats[0], lfu_rr_stats[0]]
+        diskaccess_stats = [random_stats[1], fifo_stats[1], lru_stats[1], lfu_rr_stats[1]]
+        dirtypage_stats = [random_stats[2], fifo_stats[2], lru_stats[2], lfu_rr_stats[2]]
 
         matplot_magic(pagefault_stats, diskaccess_stats, dirtypage_stats)
 
