@@ -163,6 +163,64 @@ def lru_replacement(mem_ref, frame_count=32):
 
     return pg_faults, dsk_ref, dirty_writes
 
+def per_replacement(mem_ref):
+    print("You are using the PER replacement algorithm.")
+    pass
+
+def lfu_rr_replacement(mem_ref, frame_count=32):
+    frames = [None] * frame_count
+    pg_faults = 0
+    dsk_ref = 0
+    dirty_writes = 0
+    access_frequency = {}
+    last_used_time = {}
+    dirty_bit = {}
+
+    current_time = 0
+
+    for address, operation in mem_ref:
+        current_time += 1
+        virtual_page_number = address >> 9
+        is_dirty = operation == 'W'
+
+        # Update access frequency, last used time, and dirty bit
+        access_frequency[virtual_page_number] = access_frequency.get(virtual_page_number, 0) + 1
+        last_used_time[virtual_page_number] = current_time
+        dirty_bit[virtual_page_number] = is_dirty
+
+        if virtual_page_number not in frames:
+            # Page fault occurs
+            pg_faults += 1
+            dsk_ref += 1
+
+            if None not in frames:
+                # Find the page with the lowest frequency and least recent use, prioritize clean pages
+                replacement_candidate = min(frames, key=lambda page: (dirty_bit[page], access_frequency[page], last_used_time[page]))
+
+                # Only increment dirty_writes if the page to be replaced is dirty
+                if dirty_bit[replacement_candidate]:
+                    dirty_writes += 1
+                    dsk_ref += 1
+
+                # Replace the page
+                frame_index = frames.index(replacement_candidate)
+                frames[frame_index] = virtual_page_number
+            else:
+                # Find the first empty frame and use it
+                empty_frame_index = frames.index(None)
+                frames[empty_frame_index] = virtual_page_number
+        else:
+            # Update dirty bit if necessary
+            dirty_bit[virtual_page_number] = is_dirty
+
+    print(f"---------------------LFU-RR (Modified)----------------------")
+    print(f"Total page faults: {pg_faults}")
+    print(f"Total disk references: {dsk_ref}")
+    print(f"Total dirty page writes: {dirty_writes}\n")
+
+    return pg_faults, dsk_ref, dirty_writes
+
+
 
 def addlabels(x,y):
     for i in range(len(x)):
@@ -174,7 +232,7 @@ def matplot_magic(pagefault_stats, diskaccess_stats, dirtypage_stats):
     dirtypage_graph(dirtypage_stats)
 
 def pagefault_graph(page_faults):
-    algorithms = ['Random', 'FIFO', 'LRU']
+    algorithms = ['Random', 'FIFO', 'LRU', 'LfuRR']
     plt.bar(algorithms, page_faults)
     plt.title('Page Faults ')
     plt.ylabel('# of Page Faults')
@@ -183,7 +241,7 @@ def pagefault_graph(page_faults):
     plt.show()
 
 def diskaccess_graph(disk_accesses):
-    algorithms = ['Random', 'FIFO', 'LRU']
+    algorithms = ['Random', 'FIFO', 'LRU', 'LfuRR']
     plt.bar(algorithms, disk_accesses)
     plt.title('Disk Accesses ')
     plt.ylabel('# of Disk Accesses')
@@ -192,7 +250,7 @@ def diskaccess_graph(disk_accesses):
     plt.show()
 
 def dirtypage_graph(dirty_pages):
-    algorithms = ['Random', 'FIFO', 'LRU']
+    algorithms = ['Random', 'FIFO', 'LRU', 'LfuRR']
     plt.bar(algorithms, dirty_pages, )
     plt.title('Dirty Page Writes ')
     plt.xlabel('Algorithms')
@@ -201,15 +259,6 @@ def dirtypage_graph(dirty_pages):
     addlabels(algorithms, dirty_pages)
     plt.show()
 
-
-
-def per_replacement(mem_ref):
-    print("You are using the PER replacement algorithm.")
-    pass
-
-def extra_replacement(mem_ref):
-    print("You are using the custom replacement algorithm.")
-    pass
 
 def simulate_virtual_memory(mem_ref, algorithm):
 
@@ -221,8 +270,8 @@ def simulate_virtual_memory(mem_ref, algorithm):
         lru_replacement(mem_ref, frame_count=32)
     elif algorithm == 'per':
         per_replacement(mem_ref)
-    elif algorithm == 'extra':
-        extra_replacement(mem_ref)
+    elif algorithm == 'lfurr':
+        lfu_rr_replacement(mem_ref, frame_count=32)
     else:
         print("Unknown algorithm specified.")
 
@@ -240,6 +289,7 @@ if __name__ == "__main__":
         random_stats = random_replacement(references, frame_count=32)
         fifo_stats = fifo_replacement(references, frame_count=32)
         lru_stats = lru_replacement(references, frame_count=32)
+        lfu_rr_stats = lfu_rr_replacement(references, frame_count=32)
 
         #  data for all algorithms and graph
         pagefault_stats = [random_stats[0], fifo_stats[0], lru_stats[0]]
