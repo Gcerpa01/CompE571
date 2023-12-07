@@ -163,9 +163,83 @@ def lru_replacement(mem_ref, frame_count=32):
 
     return pg_faults, dsk_ref, dirty_writes
 
-def per_replacement(mem_ref):
-    print("You are using the PER replacement algorithm.")
-    pass
+def per_replacement(mem_ref, frame_count=32, max_ref=200):
+    frames = [None] * frame_count  # Physical frames
+    pg_faults = 0
+    dsk_ref = 0
+    dirty_writes = 0
+
+    # Page table: {virtual_page_number: (physical_frame_number, dirty_bit, reference_bit)}
+    page_table = {}
+
+    curr_ref = 0
+
+    for process_id, address, operation in mem_ref:
+        virtual_page_number = address >> 9  # 7 most significant bits
+        is_dirty = operation == 'W'
+
+        curr_ref += 1
+
+        # reset criteria met
+        if curr_ref == max_ref:
+            for page_number in page_table:
+                if page_table[page_number][2] == 1:  # Reset reference bit for all referenced pages
+                    page_table[page_number] = (page_table[page_number][0], page_table[page_number][1], 0)
+            curr_ref = 0
+
+        if virtual_page_number not in page_table or page_table[virtual_page_number][0] is None:
+            # Page fault occurs
+            pg_faults += 1
+            dsk_ref += 1
+
+            if None not in frames:
+                # select only those not in the page table
+                unused_pages = [page for page in frames if page not in page_table]
+                # select unreferenced page with low dirty bit
+                unreferenced_clean_pages = [page for page in frames if page_table[page][2] == 0 and page_table[page][1] == 0]
+                # select unreferenced page with high dirty bit
+                unreferenced_dirty_pages = [page for page in frames if page_table[page][2] == 0 and page_table[page][1] == 1]
+                # select referenced page with low dirty bit
+                referenced_clean_pages = [page for page in frames if page_table[page][2] == 1 and page_table[page][1] == 0]
+                # select referenced page with high dirty bit
+                referenced_dirty_pages = [page for page in frames if page_table[page][2] == 1 and page_table[page][1] == 1]
+                
+                if unused_pages:
+                    per_pg = min(unused_pages)
+                elif unreferenced_dirty_pages:
+                    per_pg = min(unreferenced_dirty_pages)
+                elif unreferenced_clean_pages:
+                    per_pg = min(unreferenced_clean_pages)
+                elif referenced_dirty_pages:
+                    per_pg = min(referenced_dirty_pages)
+                elif referenced_clean_pages:
+                    per_pg = min(referenced_clean_pages)
+                
+                if page_table[per_pg][1]:
+                    dirty_writes += 1
+                    dsk_ref += 1
+                
+                # remove per page from page table to make room for next page loaded in memory
+                per_frame = page_table[per_pg][0]
+                frames[per_frame] = None
+                del page_table[per_pg]
+
+
+            # Find an empty frame or use the replaced frame
+            empty_or_replaced_frame = frames.index(None) if None in frames else frames.index(per_frame)
+            frames[empty_or_replaced_frame] = virtual_page_number
+            page_table[virtual_page_number] = (empty_or_replaced_frame, is_dirty, True)
+
+        else:
+            # Update page table entry
+            frame_number, _, _ = page_table[virtual_page_number]
+            page_table[virtual_page_number] = (frame_number, is_dirty, True)
+
+    print(f"---------------------PER----------------------")
+    print(f"Total page faults: {pg_faults}")
+    print(f"Total disk references: {dsk_ref}")
+    print(f"Total dirty page writes: {dirty_writes}\n")
+
 
 def lfu_rr_replacement(mem_ref, frame_count=32):
     frames = [None] * frame_count
