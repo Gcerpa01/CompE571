@@ -52,9 +52,14 @@ def random_replacement(mem_ref, frame_count=32):
             frame_number, _, _ = page_table[virtual_page_number]
             page_table[virtual_page_number] = (frame_number, is_dirty, True)
 
+    print(f"---------------------RANDOM----------------------")
     print(f"Total page faults: {pg_faults}")
     print(f"Total disk references: {dsk_ref}")
-    print(f"Total dirty page writes: {dirty_writes}")
+    print(f"Total dirty page writes: {dirty_writes}\n")
+
+    return pg_faults, dsk_ref, dirty_writes
+
+
 
 def fifo_replacement(mem_ref, frame_count=32):
     frames = [None] * frame_count  # Physical frames
@@ -95,13 +100,19 @@ def fifo_replacement(mem_ref, frame_count=32):
             frame_number, _ = page_table[virtual_page_number]
             page_table[virtual_page_number] = (frame_number, is_dirty)
 
+    print(f"---------------------FIFO----------------------")
     print(f"Total page faults: {pg_faults}")
     print(f"Total disk references: {dsk_ref}")
-    print(f"Total dirty page writes: {dirty_writes}")
+    print(f"Total dirty page writes: {dirty_writes}\n")
+
+    return pg_faults, dsk_ref, dirty_writes
+
+
 
 
 def lru_replacement(mem_ref, frame_count=32):
     frames = [None] * frame_count  # Physical frames
+
     pg_faults = 0
     dsk_ref = 0
     dirty_writes = 0
@@ -135,7 +146,7 @@ def lru_replacement(mem_ref, frame_count=32):
 
             # Find an empty frame or use the LRU frame
             empty_or_lru_frame = frames.index(None) if None in frames else lru_frame
-            
+
             frames[empty_or_lru_frame] = virtual_page_number
             page_table[virtual_page_number] = (empty_or_lru_frame, is_dirty, last_used_time)
         else:
@@ -143,39 +154,53 @@ def lru_replacement(mem_ref, frame_count=32):
             page_table[virtual_page_number] = (frame_number, is_dirty, last_used_time)
 
         last_used_time += 1  # Increment the time unit
+    
+    print(f"---------------------LRU----------------------")
 
     print(f"Total page faults: {pg_faults}")
     print(f"Total disk references: {dsk_ref}")
-    print(f"Total dirty page writes: {dirty_writes}")
+    print(f"Total dirty page writes: {dirty_writes}\n")
 
-# Example usage:
-# lru_replacement(mem_ref, frame_count=32)
+    return pg_faults, dsk_ref, dirty_writes
 
 
+def addlabels(x,y):
+    for i in range(len(x)):
+        plt.text(i, y[i], y[i], ha = 'center')
+
+def matplot_magic(pagefault_stats, diskaccess_stats, dirtypage_stats):
+    pagefault_graph(pagefault_stats)
+    diskaccess_graph(diskaccess_stats)
+    dirtypage_graph(dirtypage_stats)
 
 def pagefault_graph(page_faults):
     algorithms = ['Random', 'FIFO', 'LRU']
     plt.bar(algorithms, page_faults)
-    plt.title('Page Faults Comparison')
-    plt.xlabel('Algorithms')
-    plt.ylabel('Number of Page Faults')
+    plt.title('Page Faults ')
+    plt.ylabel('# of Page Faults')
+    plt.ylim(ymin=2000)  # this line
+    addlabels(algorithms, page_faults)
     plt.show()
 
 def diskaccess_graph(disk_accesses):
     algorithms = ['Random', 'FIFO', 'LRU']
     plt.bar(algorithms, disk_accesses)
-    plt.title('Disk Accesses Comparison')
-    plt.xlabel('Algorithms')
-    plt.ylabel('Number of Disk Accesses')
+    plt.title('Disk Accesses ')
+    plt.ylabel('# of Disk Accesses')
+    plt.ylim(ymin=2000)  # this line
+    addlabels(algorithms, disk_accesses)
     plt.show()
 
 def dirtypage_graph(dirty_pages):
     algorithms = ['Random', 'FIFO', 'LRU']
-    plt.bar(algorithms, dirty_pages)
-    plt.title('Dirty Page Writes Comparison')
+    plt.bar(algorithms, dirty_pages, )
+    plt.title('Dirty Page Writes ')
     plt.xlabel('Algorithms')
-    plt.ylabel('Number of Dirty Page Writes')
+    plt.ylabel('# of Dirty Page Writes')
+    plt.ylim(ymin=1000)  # this line
+    addlabels(algorithms, dirty_pages)
     plt.show()
+
 
 
 def per_replacement(mem_ref):
@@ -187,10 +212,11 @@ def extra_replacement(mem_ref):
     pass
 
 def simulate_virtual_memory(mem_ref, algorithm):
+
     if algorithm == 'random':
         random_replacement(mem_ref, frame_count=32)
     elif algorithm == 'fifo':
-        fifo_replacement(mem_ref, frame_count=32) 
+        fifo_replacement(mem_ref, frame_count=32)
     elif algorithm == 'lru':
         lru_replacement(mem_ref, frame_count=32)
     elif algorithm == 'per':
@@ -206,5 +232,22 @@ if __name__ == "__main__":
         algorithm = sys.argv[2].lower()
         references = read_mem_ref(file_path)
         simulate_virtual_memory(references, algorithm)
+
+    elif len(sys.argv) == 2: 
+        file_path = sys.argv[1]
+        references = read_mem_ref(file_path)
+
+        random_stats = random_replacement(references, frame_count=32)
+        fifo_stats = fifo_replacement(references, frame_count=32)
+        lru_stats = lru_replacement(references, frame_count=32)
+
+        #  data for all algorithms and graph
+        pagefault_stats = [random_stats[0], fifo_stats[0], lru_stats[0]]
+        diskaccess_stats = [random_stats[1], fifo_stats[1], lru_stats[1]]
+        dirtypage_stats = [random_stats[2], fifo_stats[2], lru_stats[2]]
+
+        matplot_magic(pagefault_stats, diskaccess_stats, dirtypage_stats)
+
     else:
         print("Please provide a file path and an algorithm name as command line arguments.")
+
