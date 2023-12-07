@@ -1,5 +1,6 @@
 import sys
 import random
+import matplotlib.pyplot as plt
 
 def read_mem_ref(file_path):
     mem_ref = []
@@ -140,7 +141,33 @@ def lru_replacement(mem_ref,frame_count=32):
 
     print(f"Total page faults: {pg_faults}")
     print(f"Total disk references: {dsk_ref}")
-    print(f"Total dirty page writes: {dirty_writes}")        
+    print(f"Total dirty page writes: {dirty_writes}")
+
+
+def pagefault_graph(page_faults):
+    algorithms = ['Random', 'FIFO', 'LRU']
+    plt.bar(algorithms, page_faults)
+    plt.title('Page Faults Comparison')
+    plt.xlabel('Algorithms')
+    plt.ylabel('Number of Page Faults')
+    plt.show()
+
+def diskaccess_graph(disk_accesses):
+    algorithms = ['Random', 'FIFO', 'LRU']
+    plt.bar(algorithms, disk_accesses)
+    plt.title('Disk Accesses Comparison')
+    plt.xlabel('Algorithms')
+    plt.ylabel('Number of Disk Accesses')
+    plt.show()
+
+def dirtypage_graph(dirty_pages):
+    algorithms = ['Random', 'FIFO', 'LRU']
+    plt.bar(algorithms, dirty_pages)
+    plt.title('Dirty Page Writes Comparison')
+    plt.xlabel('Algorithms')
+    plt.ylabel('Number of Dirty Page Writes')
+    plt.show()
+
 
 def per_replacement(mem_ref):
     print("You are using the PER replacement algorithm.")
