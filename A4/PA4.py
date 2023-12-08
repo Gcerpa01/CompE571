@@ -240,6 +240,9 @@ def per_replacement(mem_ref, frame_count=32, max_ref=200):
     print(f"Total disk references: {dsk_ref}")
     print(f"Total dirty page writes: {dirty_writes}\n")
 
+    return pg_faults, dsk_ref, dirty_writes
+
+
 
 def lfu_rr_replacement(mem_ref, frame_count=32):
     frames = [None] * frame_count
@@ -306,30 +309,30 @@ def matplot_magic(pagefault_stats, diskaccess_stats, dirtypage_stats):
     dirtypage_graph(dirtypage_stats)
 
 def pagefault_graph(page_faults):
-    algorithms = ['Random', 'FIFO', 'LRU', 'LfuRR']
+    algorithms = ['Random', 'FIFO', 'LRU', 'PER', 'LfuRR']
     plt.bar(algorithms, page_faults)
     plt.title('Page Faults ')
     plt.ylabel('# of Page Faults')
-    plt.ylim(ymin=2000)  # this line
+    plt.ylim(ymin=2000)  
     addlabels(algorithms, page_faults)
     plt.show()
 
 def diskaccess_graph(disk_accesses):
-    algorithms = ['Random', 'FIFO', 'LRU', 'LfuRR']
+    algorithms = ['Random', 'FIFO', 'LRU', 'PER', 'LfuRR']
     plt.bar(algorithms, disk_accesses)
     plt.title('Disk Accesses ')
     plt.ylabel('# of Disk Accesses')
-    plt.ylim(ymin=2000)  # this line
+    plt.ylim(ymin=2000)  
     addlabels(algorithms, disk_accesses)
     plt.show()
 
 def dirtypage_graph(dirty_pages):
-    algorithms = ['Random', 'FIFO', 'LRU', 'LfuRR']
+    algorithms = ['Random', 'FIFO', 'LRU', 'PER', 'LfuRR']
     plt.bar(algorithms, dirty_pages, )
     plt.title('Dirty Page Writes ')
     plt.xlabel('Algorithms')
     plt.ylabel('# of Dirty Page Writes')
-    plt.ylim(ymin=1000)  # this line
+    plt.ylim(ymin=1000)  
     addlabels(algorithms, dirty_pages)
     plt.show()
 
@@ -363,12 +366,13 @@ if __name__ == "__main__":
         random_stats = random_replacement(references, frame_count=32)
         fifo_stats = fifo_replacement(references, frame_count=32)
         lru_stats = lru_replacement(references, frame_count=32)
+        per_stats = per_replacement(references, frame_count=32)
         lfu_rr_stats = lfu_rr_replacement(references, frame_count=32)
 
         #  data for all algorithms and graph
-        pagefault_stats = [random_stats[0], fifo_stats[0], lru_stats[0], lfu_rr_stats[0]]
-        diskaccess_stats = [random_stats[1], fifo_stats[1], lru_stats[1], lfu_rr_stats[1]]
-        dirtypage_stats = [random_stats[2], fifo_stats[2], lru_stats[2], lfu_rr_stats[2]]
+        pagefault_stats = [random_stats[0], fifo_stats[0], lru_stats[0], per_stats[0], lfu_rr_stats[0]]
+        diskaccess_stats = [random_stats[1], fifo_stats[1], lru_stats[1], per_stats[1], lfu_rr_stats[1]]
+        dirtypage_stats = [random_stats[2], fifo_stats[2], lru_stats[2], per_stats[2], lfu_rr_stats[2]]
 
         matplot_magic(pagefault_stats, diskaccess_stats, dirtypage_stats)
 
