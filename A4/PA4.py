@@ -332,7 +332,7 @@ def dirtypage_graph(dirty_pages):
     plt.title('Dirty Page Writes ')
     plt.xlabel('Algorithms')
     plt.ylabel('# of Dirty Page Writes')
-    plt.ylim(ymin=1000)  
+    plt.ylim(ymin=0)  
     addlabels(algorithms, dirty_pages)
     plt.show()
 
