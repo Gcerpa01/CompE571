@@ -29,7 +29,7 @@ This script supports the following page replacement algorithms:
     - Look for a page that is both referenced (reference bit is 1) and dirty (dirty bit is 1).
     - In order to make the results deterministic, always replace the lowest numbered page in a particular category.
 
-5. **Extra Replacement (`extra`)**: The team's own replacement algorithm which is used to outperform the above four in terms of number of page faults, number of dirty page writes, and number of disk accesses.
+5. **Extra Replacement (`lfurr`)**: The team's own replacement algorithm which is used to outperform the above four in terms of number of page faults, number of dirty page writes, and number of disk accesses.
 
 ## How to Use
 
